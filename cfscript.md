@@ -892,6 +892,13 @@ Note that all attributes of `<cftransaction>` are supported as space-separated n
 writeDump(myVar); // can use either ordered or named arguments.  
 ```
 
+Railo only:
+```cfc
+dump(myVar);
+or
+dump(myVar)
+```
+
 #### Log
 ```cfc
 writeLog("text to log"); // can use either ordered or named arguments.  
