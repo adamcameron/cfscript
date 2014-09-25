@@ -893,7 +893,7 @@ writeDump(myVar); // can use either ordered or named arguments.
 ```
 
 Railo only:
-```
+```cfc
 dump(myVar)
 ```
 
