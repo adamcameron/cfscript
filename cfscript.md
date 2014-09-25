@@ -891,6 +891,10 @@ Note that all attributes of `<cftransaction>` are supported as space-separated n
 ```cfc
 writeDump(myVar); // can use either ordered or named arguments.  
 ```
+With named arguments:
+```cfc
+writeDump(var=myVar, output=ExpandPath('/debug/log.txt')); 
+```
 
 Railo only:
 ```cfc
