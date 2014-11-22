@@ -269,7 +269,7 @@ The general perception is that this is the only form of a general-purpose for() 
 for(;;)
 ```
 
-A very contrived example to demonstrate the freedom one has with the parameters of the for():
+A very contrived example to demonstrate the freedom one has with the parameters of the [for()](#contrivedFor):
 ```cfc
 i=0;
 for(; true; writeOutput(i)){
