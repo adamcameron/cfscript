@@ -998,6 +998,33 @@ document format="PDF" {
     // mark-up here
 }
 ```
+
+#### CFHTTP
+
+ColdFusion:
+__The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes that are normally set via the `<cfhttp>` tag__
+```cfc
+// there's a built-in CFC that handles this in CF9+
+httpService = new http();
+httpService.setMethod( "post" )
+httpService.setCharset( "utf-8" );
+
+// the API provider may require you to export this cert
+// so you’ll need to save it in a secure place…
+// and reference it here
+local.httpService.setClientCert( "#ExpandPath(‘.’)#/my_cert.p12" );
+local.httpService.setClientCertPassword( "mypassword!" );
+local.httpService.setUrl( "https://api.sample.com/" );
+
+    // these params are form fields to POST
+    local.httpService.addParam(type="formfield", name="field1", value="1111");
+    local.httpService.addParam(type="formfield", name="field2", value="some text here");
+
+// this is the cfscript way to grab the response
+local.httpResponse = local.httpService.send().getPrefix();
+
+writeDump(local.httpResponse);
+```
    
 The same should work on other PDF-oriented tags. For versions of ColdFusion prior to CF11, there is a PDF.cfc (similar to Query.cfc, and also in cfusion/CustomTags/com/adobe/coldfusion). I have never used it, do not know how it works, and have no interest in finding out. If someone would like to donate some example code, I will integrate it here.
 
@@ -1007,7 +1034,6 @@ The same should work on other PDF-oriented tags. For versions of ColdFusion prio
 
 As far as I can tell, there is no CFScript-specific implementations for the following pieces of functionality:
 
-*   `<cfhttp>`
 *   `<cfftp>`
 *   `<cfpop>`
 *   `<cfimap>`
@@ -1017,7 +1043,7 @@ As far as I can tell, there is no CFScript-specific implementations for the foll
 *   `<cfindex>`
 *   `<cfsearch>`
 
-There a re CFC wrappers for these in cfusion/CustomTags/com/adobe/coldfusion. I have not used many of these, and the documentation is sparse.
+There are CFC wrappers for these in cfusion/CustomTags/com/adobe/coldfusion. I have not used many of these, and the documentation is sparse.
 
 #### The rest
 
