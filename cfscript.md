@@ -998,10 +998,13 @@ document format="PDF" {
     // mark-up here
 }
 ```
+   
+The same should work on other PDF-oriented tags. For versions of ColdFusion prior to CF11, there is a PDF.cfc (similar to Query.cfc, and also in cfusion/CustomTags/com/adobe/coldfusion). I have never used it, do not know how it works, and have no interest in finding out. If someone would like to donate some example code, I will integrate it here.
 
 #### CFHTTP
 
-ColdFusion:
+ColdFusion (CF9+):
+
 __The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes that are normally set via the `<cfhttp>` tag__
 ```cfc
 // there's a built-in CFC that handles this in CF9+
@@ -1012,21 +1015,44 @@ httpService.setCharset( "utf-8" );
 // the API provider may require you to export this cert
 // so you’ll need to save it in a secure place…
 // and reference it here
-local.httpService.setClientCert( "#ExpandPath(‘.’)#/my_cert.p12" );
-local.httpService.setClientCertPassword( "mypassword!" );
-local.httpService.setUrl( "https://api.sample.com/" );
+httpService.setClientCert( "#ExpandPath(‘.’)#/my_cert.p12" );
+httpService.setClientCertPassword( "mypassword!" );
+httpService.setUrl( "https://api.sample.com/" );
 
-    // these params are form fields to POST
-    local.httpService.addParam(type="formfield", name="field1", value="1111");
-    local.httpService.addParam(type="formfield", name="field2", value="some text here");
+// these params are form fields to POST
+httpService.addParam(type="formfield", name="field1", value="1111");
+httpService.addParam(type="formfield", name="field2", value="some text here");
 
 // this is the cfscript way to grab the response
-local.httpResponse = local.httpService.send().getPrefix();
+httpResponse = local.httpService.send().getPrefix();
 
-writeDump(local.httpResponse);
+writeDump(httpResponse);
 ```
-   
-The same should work on other PDF-oriented tags. For versions of ColdFusion prior to CF11, there is a PDF.cfc (similar to Query.cfc, and also in cfusion/CustomTags/com/adobe/coldfusion). I have never used it, do not know how it works, and have no interest in finding out. If someone would like to donate some example code, I will integrate it here.
+
+#### CFMAIL
+
+ColdFusion (CF9+):
+
+__The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes that are normally set via the `<cfmail>` tag__
+```cfc
+mailerService = new mail();
+/* set mail attributes using implicit setters provided */ 
+mailerService.setType("html");
+mailerService.setCharset( "utf-8" );
+mailerService.setTo( "adam@sample.com" );
+mailerService.setFrom( "test@sample.com;joe@sample.com" );
+mailerService.setSubject( "Super interesting subject" );
+
+/* add mailparams */ 
+mailerService.addParam( file=expandpath(form.attachment), type="text/plain", remove=false );
+// create the body
+savecontent variable="mailBody"{
+    WriteDump( CGI );
+    WriteDump( SESSION );
+}
+// send the email
+mailerService.send( body=mailBody );
+```
 
 ### Elements of tag-based CFML with no _specific_ CFScript implementation
 
