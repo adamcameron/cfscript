@@ -2,7 +2,11 @@
 
 This attempts to document all of CFScript, as a resource for people migrating from old-school tag-based code to script-based code. The reason I am doing this is because neither ColdFusion nor Railo provide much (or in the case of Railo: _any_) useful [documentation of CFScript](https://wikidocs.adobe.com/wiki/display/coldfusionen/The+CFScript+language).
 
-This is not a document for converting tags to script. It is not written from a point of view of "if you use ``<cfsometag>`` then you need to instead use [some script construct]". It simply documents CFScript. It does - however - set out how to perform all CFML functionality using CFScript. It is also not an exercise in teaching CFML (or at least the script part). It assumes you know what you're doing, and is purely a reference.
+This is not a document for converting tags to script. It is not written from a point of view of "if you use ``<cfsometag>`` then you need to instead use [some script construct]". It simply documents CFScript.
+
+There are some syntax-neutral solutions to some CFML constructs which are listed at the bottom of the document. These are the CFCs found in [customtag]/com/adobe/coldfusion. These are not CFScript constructs per se, but related enough to be relevant here.
+
+It is also not an exercise in teaching CFML (or at least the script part). It assumes you know what you're doing, and is purely a reference.
 
 I assume Railo 4.2 or ColdFusion 11, except where stated.
 
@@ -1001,11 +1005,30 @@ document format="PDF" {
    
 The same should work on other PDF-oriented tags. For versions of ColdFusion prior to CF11, there is a PDF.cfc (similar to Query.cfc, and also in cfusion/CustomTags/com/adobe/coldfusion). I have never used it, do not know how it works, and have no interest in finding out. If someone would like to donate some example code, I will integrate it here.
 
-#### CFHTTP
+
+### Elements of tag-based CFML with no _specific_ CFScript implementation
+
+#### CFC-based solutions
+
+As far as I can tell, there is no CFScript-specific implementations for the following pieces of functionality:
+
+*   `<cfftp>`
+*   `<cfpop>`
+*   `<cfimap>`
+*   `<cffeed>`
+*   `<cfldap>`
+*   `<cfcollection>`
+*   `<cfindex>`
+*   `<cfsearch>`
+
+There are CFC wrappers for these in cfusion/CustomTags/com/adobe/coldfusion. These are not CFScript-specific solutions per se - one can just as easily use them in tag-based code - but can be included here for the sake of completeness. I personally do not use these constructs, and as they are not part of CFScript, did not attempt to include them here. Feel free to document and include them if you so choose.
+
+#### http.cfc
 
 ColdFusion (CF9+):
 
 __The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes that are normally set via the `<cfhttp>` tag__
+
 ```cfc
 // there's a built-in CFC that handles this in CF9+
 httpService = new http();
@@ -1029,11 +1052,12 @@ httpResponse = local.httpService.send().getPrefix();
 writeDump(httpResponse);
 ```
 
-#### CFMAIL
+#### mail.cfc
 
 ColdFusion (CF9+):
 
 __The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes that are normally set via the `<cfmail>` tag__
+
 ```cfc
 mailerService = new mail();
 /* set mail attributes using implicit setters provided */ 
@@ -1054,22 +1078,6 @@ savecontent variable="mailBody"{
 mailerService.send( body=mailBody );
 ```
 
-### Elements of tag-based CFML with no _specific_ CFScript implementation
-
-#### CFC-based solutions
-
-As far as I can tell, there is no CFScript-specific implementations for the following pieces of functionality:
-
-*   `<cfftp>`
-*   `<cfpop>`
-*   `<cfimap>`
-*   `<cffeed>`
-*   `<cfldap>`
-*   `<cfcollection>`
-*   `<cfindex>`
-*   `<cfsearch>`
-
-There are CFC wrappers for these in cfusion/CustomTags/com/adobe/coldfusion. I have not used many of these, and the documentation is sparse.
 
 #### The rest
 
