@@ -50,7 +50,7 @@ Where "generally" means "if the end of the statement is unambiguous without a se
 
 Block statements (with curly braces) do not have semi-colons:
 ```cfc
-while(condtion){
+while (condition){
     // statements
 }
 ```   
