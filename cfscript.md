@@ -744,10 +744,10 @@ fileMove("path/to/file", "new/path/to/file");
 ```cfc
 // upload
 fileUpload("path/to/upload/file/to");
-fileUpload({destination},{filefield},{accept},{nameconflict});
+fileUpload(destination [, fileField [, accept [, nameConflict]]]);
 
 fileUploadAll("path/to/upload/files/to");
-fileUploadAll({destination},{filefield},{accept},{nameconflict});
+fileUploadAll(destination [, fileField [, accept [, nameConflict]]]);
 ```
 ```cfc
 // write
