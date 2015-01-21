@@ -31,7 +31,7 @@ a=1; // single line comment at end of line
     /* comments */
     cannot be nested
 */
-```   
+```
 
 In this case, the commented bit is `/* multiple line /* comments */`, making the next bit a syntax error.
 
@@ -43,7 +43,7 @@ a = 1;
 ```
 Semi-colons are _generally_ optional on Railo:
 ```cfc
-a = 1 
+a = 1
 ```
 
 Where "generally" means "if the end of the statement is unambiguous without a semi-colon".
@@ -53,31 +53,31 @@ Block statements (with curly braces) do not have semi-colons:
 while (condition){
     // statements
 }
-```   
+```
 
 ### Variables
 
 Assigning a variable:
 ```cfc
 varName = "foo";
-```   
+```
 
 Assigning a function-local variable:
 ```cfc
 var varName = "foo"; // analogous to local.varName =  "foo";
-```   
+```
 
 Note that the var keyword can appear inline in most statements where a variable is first initialised, eg:
 ```cfc
 for (var i=1; i <= 10; i++);
-```   
+```
 
 Assigning a dynamically-named variable:
 ```cfc
 varName = "foo";
 "#varName#" = "bar";
 writeOutput(foo); // bar
-```   
+```
 
 This is the same as with a `<cfset>` tag, but confuses some people due to it being slightly odd-looking. Obviously one can also use associative array syntax too (eg: `variables[varName] = "bar";`. This is preferable as it's more clear what's going on).
 
@@ -88,7 +88,7 @@ param numeric variableName=defaultValue; // where "numeric" could be any type
 For more complex situations:
 ```cfc
 param name="variableName" type="regex" pattern="."; // any cfparam attribute is supported
-```   
+```
 
 ### Operators
 
@@ -103,7 +103,7 @@ a >= 1; // greater-than-or-equal
 a > 1;  // greater than
 a != 1; // inequality
 a <> 1; // inequality (Railo only)
-```   
+```
 
 #### Arithemetic
 
@@ -118,7 +118,7 @@ c = ++a; // c=3, a=3    // prefix operator peforms action then returns result
 // decrement
 a--; // a=2
 --a; // a=1
-```   
+```
 
 ##### Inline assignment
 ```cfc
@@ -151,7 +151,7 @@ coinTossResult = randRange(0,1) ? "heads" : "tails";
 a = 1;
 b = 1;
 c = false ? ++a : ++b; // a=1, b=2, c=2
-``` 
+```
 
 ##### Null-coalescing variation
 ```cfc
@@ -163,7 +163,7 @@ a = d ?: "default"; // a = default
 ```cfc
 d = 1;
 a = d ?: "default"; // a = 1
-``` 
+```
 
 ### Conditions
 
@@ -201,7 +201,7 @@ switch (expression){
         // statements executed if expression = "a different constant value" or "third constant value"
     break;
     case "4th value":
-         "5th value":
+    case "5th value":
             // statements executed if expression is one of "4th value" or "5th value"
     break;
     default:
@@ -216,10 +216,10 @@ try {
     // statements
 
     throw "message"; // throws an Application exception, with the given message
-    
+
     // or
     throw(type="ExceptionType", message="message", detail="detail", errorCode="errorCode", extendedInfo="extendedInfo"); // despite appearances, this is NOT a function
-    
+
     // or
     throw(object=JavaExceptionObject);
 
@@ -257,7 +257,7 @@ for (initialisation; condition; repetition) {
 EG:
 ```cfc
 for (i=1; i <=5; i++) writeOutput(i); // just the following single statement is looped over
-``` 
+```
 
 or:
 ```cfc
@@ -298,7 +298,7 @@ This form of loop will execute zero or more times.
 
 This form of loop evaluates a single condition at the beginning of each iteration, and continues to loop whilst the condition is true:
 ```cfc
-do { 
+do {
     // statements
 } while(condition);
 ```
@@ -636,14 +636,14 @@ Also note that this does not currently work on ColdFusion (see [3808960](https:/
 function f(x){
     // statements
 }
-```   
+```
 
 #### Function expressions
 ```cfc
 f = function(x){
     // statements
 };
-```   
+```
 
 Functions defined by function expressions use closure, functions defined by a function statement do not
 
@@ -673,8 +673,8 @@ myObj = createObject(type, "path.to.class"); // along with other type/situation-
 
 // or
 
-myObj = new path.to.some.cfc.file(); // NB: will call the CFC's init() (by default), or method identified by the initmethod attribute of the component (bug in Railo: [RAILO-2294](https://issues.jboss.org/browse/RAILO-2294)) 
-```   
+myObj = new path.to.some.cfc.file(); // NB: will call the CFC's init() (by default), or method identified by the initmethod attribute of the component (bug in Railo: [RAILO-2294](https://issues.jboss.org/browse/RAILO-2294))
+```
 
 ### File system operations
 
@@ -885,7 +885,7 @@ transaction {
         transaction action="commit";
     }
     catch (any e){
-        transaction action="rollback";    
+        transaction action="rollback";
     }
 }
 ```
@@ -896,11 +896,11 @@ Note that all attributes of `<cftransaction>` are supported as space-separated n
 
 #### Dump
 ```cfc
-writeDump(myVar); // can use either ordered or named arguments.  
+writeDump(myVar); // can use either ordered or named arguments.
 ```
 With named arguments:
 ```cfc
-writeDump(var=myVar, output=ExpandPath('/debug/log.txt')); 
+writeDump(var=myVar, output=ExpandPath('/debug/log.txt'));
 ```
 
 Railo only:
@@ -910,7 +910,7 @@ dump(myVar)
 
 #### Log
 ```cfc
-writeLog("text to log"); // can use either ordered or named arguments.  
+writeLog("text to log"); // can use either ordered or named arguments.
 ```
 
 #### Trace
@@ -926,7 +926,7 @@ trace(category="test", text="trace text"){ // plus all same params as `<cftrace>
     // stuff to trace
 }
 // note that CF11 incorrectly records timing information (see [3811003](https://bugbase.adobe.com/index.cfm?event=bug&id=3811003))
-```   
+```
 
 #### Timer
 ```cfc
@@ -1002,7 +1002,7 @@ document format="PDF" {
     // mark-up here
 }
 ```
-   
+
 The same should work on other PDF-oriented tags. For versions of ColdFusion prior to CF11, there is a PDF.cfc (similar to Query.cfc, and also in cfusion/CustomTags/com/adobe/coldfusion). I have never used it, do not know how it works, and have no interest in finding out. If someone would like to donate some example code, I will integrate it here.
 
 
@@ -1060,14 +1060,14 @@ __The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes 
 
 ```cfc
 mailerService = new mail();
-/* set mail attributes using implicit setters provided */ 
+/* set mail attributes using implicit setters provided */
 mailerService.setType("html");
 mailerService.setCharset( "utf-8" );
 mailerService.setTo( "adam@sample.com" );
 mailerService.setFrom( "test@sample.com;joe@sample.com" );
 mailerService.setSubject( "Super interesting subject" );
 
-/* add mailparams */ 
+/* add mailparams */
 mailerService.addParam( file=expandpath(form.attachment), type="text/plain", remove=false );
 // create the body
 savecontent variable="mailBody"{
