@@ -814,16 +814,18 @@ numbers = new Query(
 #### Stored Procedure
 ```cfc
 cfstoredproc(procedure="procName") {
-    cfprocparam(type="in", cfsqltype="cf_sql_varchat", value="someValue");
-    cfprocresult(name="result");
+    cfprocparam(type="in", cfsqltype="cf_sql_varchar", value="someValue");
+    cfprocresult(name="result",resultSet=1);
+    cfprocresult(name="result2",resultSet=2);
 }
 ```
 
 Railo/Lucee only
 ```cfc
 storedproc procedure="procName" {
-    procparam type="in" cfsqltype="cf_sql_varchat" value="someValue";
-    procresult name="result";
+    procparam type="in" cfsqltype="cf_sql_varchar" value="someValue";
+    procresult resultSet=1 name="result";
+    procresult resultSet=2 name="result2";
 }
 ```
 
