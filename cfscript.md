@@ -796,6 +796,25 @@ numbers = queryExecute("
 ",{low=2,high=3});
 ```
 
+To qualify parameters with SQL types you can specify the equivalent of the cfqueryparam options with the parameters in the following way:
+
+```cfc
+// with sql types in params struct
+numbers = queryExecute("
+    SELECT    columns
+    FROM    table
+    WHERE    id BETWEEN :low AND :high
+",
+{
+    low = { value = 2
+            cfsqltype = "cf_sql_integer"
+        },
+    high = { value = 3,
+             cfsqltype = "cf_sql_integer"
+        }
+});
+```
+
 For versions prior to ColdFusion 11 (in which queryExecute() was implemented), there is a CFC-based solution: [Query.cfc](https://wikidocs.adobe.com/wiki/display/coldfusionen/query). An example is as follows:
 ```cfc
 numbers = new Query(
