@@ -1,3 +1,86 @@
+
+Table of Contents
+=================
+
+  * [CFScript documentation](#cfscript-documentation)
+      * [Comments](#comments)
+      * [Statements](#statements)
+      * [Variables](#variables)
+      * [Operators](#operators)
+        * [Decision](#decision)
+        * [Arithemetic](#arithemetic)
+          * [Increment/decrement](#incrementdecrement)
+          * [Inline assignment](#inline-assignment)
+        * [Boolean](#boolean)
+        * [Decision](#decision-1)
+          * [Ternary operator](#ternary-operator)
+          * [Null-coalescing variation](#null-coalescing-variation)
+      * [Conditions](#conditions)
+        * [if/elseif/else](#ifelseifelse)
+        * [switch](#switch)
+        * [try/catch/finally, throw/rethrow](#trycatchfinally-throwrethrow)
+      * [Iteration](#iteration)
+        * [General-purpose for loop](#general-purpose-for-loop)
+        * [Pre-condition loop](#pre-condition-loop)
+        * [Post-condition loop](#post-condition-loop)
+        * [Array loop](#array-loop)
+          * [For statement](#for-statement)
+          * [arrayEach()](#arrayeach)
+          * [Array.each()](#arrayeach-1)
+        * [Struct loop](#struct-loop)
+          * [For statement](#for-statement-1)
+          * [structEach()](#structeach)
+          * [Struct.each()](#structeach-1)
+        * [Query loop](#query-loop)
+        * [List loop](#list-loop)
+        * [File loop](#file-loop)
+        * [Date/time range loop](#datetime-range-loop)
+      * [Other flow control statements](#other-flow-control-statements)
+        * [Abort processing](#abort-processing)
+        * [Exit from current file](#exit-from-current-file)
+      * [Code reuse](#code-reuse)
+        * [Include](#include)
+        * [Module](#module)
+      * [Components / interfaces](#components--interfaces)
+        * [Attributes](#attributes)
+        * [Interface](#interface)
+        * [Properties](#properties)
+        * [Functions](#functions)
+        * [Arguments](#arguments)
+        * [Function/argument annotations](#functionargument-annotations)
+        * [Function expressions](#function-expressions)
+        * [Calling functions dynamically](#calling-functions-dynamically)
+        * [Import](#import)
+        * [Object creation](#object-creation)
+      * [File system operations](#file-system-operations)
+        * [Directories](#directories)
+        * [Files](#files)
+      * [Database](#database)
+        * [Query](#query)
+        * [Stored Procedure](#stored-procedure)
+        * [Insert](#insert)
+        * [Update](#update)
+        * [DB Info](#db-info)
+        * [Transactions](#transactions)
+      * [Debugging](#debugging)
+        * [Dump](#dump)
+        * [Log](#log)
+        * [Trace](#trace)
+        * [Timer](#timer)
+      * [General / Miscellaneous](#general--miscellaneous)
+        * [Output](#output)
+        * [File Encoding](#file-encoding)
+        * [Save content](#save-content)
+        * [Threading](#threading)
+        * [Locking](#locking)
+        * [Image / XLS manipulation](#image--xls-manipulation)
+        * [PDF Manipulation](#pdf-manipulation)
+      * [Elements of tag-based CFML with no <em>specific</em> CFScript implementation](#elements-of-tag-based-cfml-with-no-specific-cfscript-implementation)
+        * [CFC-based solutions](#cfc-based-solutions)
+        * [http.cfc](#httpcfc)
+        * [mail.cfc](#mailcfc)
+        * [The rest](#the-rest)
+
 # CFScript documentation
 
 This attempts to document all of CFScript, as a resource for people migrating from old-school tag-based code to script-based code. The reason I am doing this is because neither ColdFusion nor Railo/Lucee provide much (or in the case of Railo/Lucee: _any_) useful [documentation of CFScript](https://wikidocs.adobe.com/wiki/display/coldfusionen/The+CFScript+language).
@@ -475,6 +558,20 @@ cfloop(from=from, to=to, index="date", step=createTimespan(1,0,0,0)){
 
 loop from=from to=to index="date" step=createTimespan(1,0,0,0){
     writeOutput(dateTimeFormat(date, "yyyy-mm-dd HH:nn:sstt") & "<br>");
+}
+```
+
+#### Iteration flow control
+
+cfcontinue:
+```cfc
+for (i=1; i <= 5; i++){
+    writeOutput("#i# is ");
+    if (i mod 2){
+        writeOutput("ODD<br>");
+        continue;
+    }
+    writeOutput("EVEN<br>");
 }
 ```
 
