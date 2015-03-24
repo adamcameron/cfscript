@@ -248,6 +248,9 @@ d = 1;
 a = d ?: "default"; // a = 1
 ```
 
+Note that whilst this appears to be the same as other language's "Elvis" operator, it is not the same. The "Elvis" operator checks for `false` (and in some languages `null` is falsey); this operator checks specifically for `null`. This is likely due to a misunderstanding one the part of Adobe (and perpetuated by the Lucee devs when copying it).
+
+
 ### Conditions
 
 #### if/elseif/else
