@@ -943,6 +943,7 @@ Railo/Lucee only
 ```cfc
 storedproc procedure="procName" {
     procparam type="in" cfsqltype="cf_sql_varchar" value="someValue";
+    procparam type="out" cfsqltype="cf_sql_integer" variable="myVariable";
     procresult resultSet=1 name="result";
     procresult resultSet=2 name="result2";
 }
