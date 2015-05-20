@@ -1181,7 +1181,7 @@ httpService.addParam(type="formfield", name="field1", value="1111");
 httpService.addParam(type="formfield", name="field2", value="some text here");
 
 // this is the cfscript way to grab the response
-httpResponse = local.httpService.send().getPrefix();
+httpResponse = httpService.send().getPrefix();
 
 writeDump(httpResponse);
 ```
