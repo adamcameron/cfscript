@@ -161,6 +161,7 @@ varName = "foo";
 "#varName#" = "bar";
 writeOutput(foo); // bar
 ```
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/aafe518f91bce312349e/acf11?theme=solarized_dark)
 
 This is the same as with a `<cfset>` tag, but confuses some people due to it being slightly odd-looking. Obviously one can also use associative array syntax too (eg: `variables[varName] = "bar";`. This is preferable as it's more clear what's going on).
 
@@ -187,7 +188,7 @@ a > 1;  // greater than
 a != 1; // inequality
 a <> 1; // inequality (Railo/Lucee only)
 ```
-
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/5b6ecbe3d5ebbdc3b8d8/lucee?theme=solarized_dark)
 #### Arithemetic
 
 ##### Increment/decrement
@@ -202,7 +203,7 @@ c = ++a; // c=3, a=3    // prefix operator peforms action then returns result
 a--; // a=2
 --a; // a=1
 ```
-
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/eefca5ca3fe8c3ef800a/acf11?theme=solarized_dark)
 ##### Inline assignment
 ```cfc
 a += 2; // equivalent to a=a+2
@@ -212,14 +213,14 @@ a /= 5; // equivalent to a=a/5
 a %= 6; // equivalent to a=a%6
 s &= "a"; // equivalent to s = s & "a"
 ```
-
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/717ea2e12e318d6ae18e/acf11?theme=solarized_dark)
 #### Boolean
 ```cfc
 !a;     // NOT a
 a && b; // a AND b
 a || b; // a OR b
 ```
-
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/85479549681ea703256c/acf11?theme=solarized_dark)
 #### Decision
 
 ##### Ternary operator
@@ -229,13 +230,14 @@ result = condition ? trueExpression : falseExpression;
 //eg:
 coinTossResult = randRange(0,1) ? "heads" : "tails";
 ```
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/007072ccaf71629f3a48/acf11?theme=solarized_dark)
 ```cfc
 // NB: only one of trueExpression or falseExpression is evaluated:
 a = 1;
 b = 1;
 c = false ? ++a : ++b; // a=1, b=2, c=2
 ```
-
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/da4ec1cfa62aa134ca4e/acf11?theme=solarized_dark)
 ##### Null-coalescing variation
 ```cfc
 result = left ?: right; // left-hand expression is used unless it is null, in which case the right one is used
@@ -243,13 +245,14 @@ result = left ?: right; // left-hand expression is used unless it is null, in wh
 //eg:
 a = d ?: "default"; // a = default
 ```
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/e1e440bab2b856474e88/acf11?theme=solarized_dark)
 ```cfc
 d = 1;
 a = d ?: "default"; // a = 1
 ```
+[![trycf-logo] Run this example on trycf.com](http://trycf.com/editor/gist/7824257754c541adbacb/acf11?theme=solarized_dark)
 
 Note that whilst this appears to be the same as other language's "Elvis" operator, it is not the same. The "Elvis" operator checks for `false` (and in some languages `null` is falsey); this operator checks specifically for `null`. This is likely due to a misunderstanding one the part of Adobe (and perpetuated by the Lucee devs when copying it).
-
 
 ### Conditions
 
@@ -1229,3 +1232,4 @@ result = cfhttp(method="post", url="http://example.com");
 
 [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
 This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+[trycf-logo]:http://trycf.com/img/trycf-logo-tiny.png "TryCF.com"
