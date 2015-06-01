@@ -274,7 +274,7 @@ if (booleanExpression){
     // multiple statements executed if condition(s) are false
 }
 ```
-
+<a href="http://trycf.com/editor/gist/79d1a9adeea8c2b3d0b6/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### switch
 ```cfc
 switch (expression){
@@ -298,7 +298,7 @@ switch (expression){
     break;
 }
 ```
-
+ <a href="http://trycf.com/editor/gist/9d104178a7630d198a16/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### try/catch/finally, throw/rethrow
 ```cfc
 try {
