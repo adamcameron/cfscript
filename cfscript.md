@@ -1,6 +1,89 @@
+
+Table of Contents
+=================
+
+  * [CFScript documentation](#cfscript-documentation)
+      * [Comments](#comments)
+      * [Statements](#statements)
+      * [Variables](#variables)
+      * [Operators](#operators)
+        * [Decision](#decision)
+        * [Arithemetic](#arithemetic)
+          * [Increment/decrement](#incrementdecrement)
+          * [Inline assignment](#inline-assignment)
+        * [Boolean](#boolean)
+        * [Decision](#decision-1)
+          * [Ternary operator](#ternary-operator)
+          * [Null-coalescing variation](#null-coalescing-variation)
+      * [Conditions](#conditions)
+        * [if/elseif/else](#ifelseifelse)
+        * [switch](#switch)
+        * [try/catch/finally, throw/rethrow](#trycatchfinally-throwrethrow)
+      * [Iteration](#iteration)
+        * [General-purpose for loop](#general-purpose-for-loop)
+        * [Pre-condition loop](#pre-condition-loop)
+        * [Post-condition loop](#post-condition-loop)
+        * [Array loop](#array-loop)
+          * [For statement](#for-statement)
+          * [arrayEach()](#arrayeach)
+          * [Array.each()](#arrayeach-1)
+        * [Struct loop](#struct-loop)
+          * [For statement](#for-statement-1)
+          * [structEach()](#structeach)
+          * [Struct.each()](#structeach-1)
+        * [Query loop](#query-loop)
+        * [List loop](#list-loop)
+        * [File loop](#file-loop)
+        * [Date/time range loop](#datetime-range-loop)
+      * [Other flow control statements](#other-flow-control-statements)
+        * [Abort processing](#abort-processing)
+        * [Exit from current file](#exit-from-current-file)
+      * [Code reuse](#code-reuse)
+        * [Include](#include)
+        * [Module](#module)
+      * [Components / interfaces](#components--interfaces)
+        * [Attributes](#attributes)
+        * [Interface](#interface)
+        * [Properties](#properties)
+        * [Functions](#functions)
+        * [Arguments](#arguments)
+        * [Function/argument annotations](#functionargument-annotations)
+        * [Function expressions](#function-expressions)
+        * [Calling functions dynamically](#calling-functions-dynamically)
+        * [Import](#import)
+        * [Object creation](#object-creation)
+      * [File system operations](#file-system-operations)
+        * [Directories](#directories)
+        * [Files](#files)
+      * [Database](#database)
+        * [Query](#query)
+        * [Stored Procedure](#stored-procedure)
+        * [Insert](#insert)
+        * [Update](#update)
+        * [DB Info](#db-info)
+        * [Transactions](#transactions)
+      * [Debugging](#debugging)
+        * [Dump](#dump)
+        * [Log](#log)
+        * [Trace](#trace)
+        * [Timer](#timer)
+      * [General / Miscellaneous](#general--miscellaneous)
+        * [Output](#output)
+        * [File Encoding](#file-encoding)
+        * [Save content](#save-content)
+        * [Threading](#threading)
+        * [Locking](#locking)
+        * [Image / XLS manipulation](#image--xls-manipulation)
+        * [PDF Manipulation](#pdf-manipulation)
+      * [Elements of tag-based CFML with no <em>specific</em> CFScript implementation](#elements-of-tag-based-cfml-with-no-specific-cfscript-implementation)
+        * [CFC-based solutions](#cfc-based-solutions)
+        * [http.cfc](#httpcfc)
+        * [mail.cfc](#mailcfc)
+        * [The rest](#the-rest)
+
 # CFScript documentation
 
-This attempts to document all of CFScript, as a resource for people migrating from old-school tag-based code to script-based code. The reason I am doing this is because neither ColdFusion nor Railo provide much (or in the case of Railo: _any_) useful [documentation of CFScript](https://wikidocs.adobe.com/wiki/display/coldfusionen/The+CFScript+language).
+This attempts to document all of CFScript, as a resource for people migrating from old-school tag-based code to script-based code. The reason I am doing this is because neither ColdFusion nor Railo/Lucee provide much (or in the case of Railo/Lucee: _any_) useful [documentation of CFScript](https://wikidocs.adobe.com/wiki/display/coldfusionen/The+CFScript+language).
 
 This is not a document for converting tags to script. It is not written from a point of view of "if you use ``<cfsometag>`` then you need to instead use [some script construct]". It simply documents CFScript.
 
@@ -8,7 +91,7 @@ There are some syntax-neutral solutions to some CFML constructs which are listed
 
 It is also not an exercise in teaching CFML (or at least the script part). It assumes you know what you're doing, and is purely a reference.
 
-I assume Railo 4.2 or ColdFusion 11, except where stated.
+I assume Railo 4.2/Lucee 4.5 or ColdFusion 11, except where stated.
 
 
 ### Comments
@@ -31,7 +114,7 @@ a=1; // single line comment at end of line
     /* comments */
     cannot be nested
 */
-```   
+```
 
 In this case, the commented bit is `/* multiple line /* comments */`, making the next bit a syntax error.
 
@@ -41,9 +124,9 @@ Statements end in semi-colons:
 ```cfc
 a = 1;
 ```
-Semi-colons are _generally_ optional on Railo:
+Semi-colons are _generally_ optional on Railo/Lucee:
 ```cfc
-a = 1 
+a = 1
 ```
 
 Where "generally" means "if the end of the statement is unambiguous without a semi-colon".
@@ -53,31 +136,32 @@ Block statements (with curly braces) do not have semi-colons:
 while (condition){
     // statements
 }
-```   
+```
 
 ### Variables
 
 Assigning a variable:
 ```cfc
 varName = "foo";
-```   
+```
 
 Assigning a function-local variable:
 ```cfc
 var varName = "foo"; // analogous to local.varName =  "foo";
-```   
+```
 
 Note that the var keyword can appear inline in most statements where a variable is first initialised, eg:
 ```cfc
 for (var i=1; i <= 10; i++);
-```   
+```
 
 Assigning a dynamically-named variable:
 ```cfc
 varName = "foo";
 "#varName#" = "bar";
 writeOutput(foo); // bar
-```   
+```
+<a href="http://trycf.com/editor/gist/aafe518f91bce312349e/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 
 This is the same as with a `<cfset>` tag, but confuses some people due to it being slightly odd-looking. Obviously one can also use associative array syntax too (eg: `variables[varName] = "bar";`. This is preferable as it's more clear what's going on).
 
@@ -88,7 +172,7 @@ param numeric variableName=defaultValue; // where "numeric" could be any type
 For more complex situations:
 ```cfc
 param name="variableName" type="regex" pattern="."; // any cfparam attribute is supported
-```   
+```
 
 ### Operators
 
@@ -102,9 +186,9 @@ a <= 1; // less-than-or-equal
 a >= 1; // greater-than-or-equal
 a > 1;  // greater than
 a != 1; // inequality
-a <> 1; // inequality (Railo only)
-```   
-
+a <> 1; // inequality (Railo/Lucee only)
+```
+<a href="http://trycf.com/editor/gist/5b6ecbe3d5ebbdc3b8d8/lucee?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### Arithemetic
 
 ##### Increment/decrement
@@ -118,8 +202,8 @@ c = ++a; // c=3, a=3    // prefix operator peforms action then returns result
 // decrement
 a--; // a=2
 --a; // a=1
-```   
-
+```
+<a href="http://trycf.com/editor/gist/eefca5ca3fe8c3ef800a/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 ##### Inline assignment
 ```cfc
 a += 2; // equivalent to a=a+2
@@ -129,14 +213,14 @@ a /= 5; // equivalent to a=a/5
 a %= 6; // equivalent to a=a%6
 s &= "a"; // equivalent to s = s & "a"
 ```
-
+<a href="http://trycf.com/editor/gist/717ea2e12e318d6ae18e/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### Boolean
 ```cfc
 !a;     // NOT a
 a && b; // a AND b
 a || b; // a OR b
 ```
-
+<a href="http://trycf.com/editor/gist/85479549681ea703256c/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### Decision
 
 ##### Ternary operator
@@ -146,13 +230,14 @@ result = condition ? trueExpression : falseExpression;
 //eg:
 coinTossResult = randRange(0,1) ? "heads" : "tails";
 ```
+<a href="http://trycf.com/editor/gist/007072ccaf71629f3a48/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 ```cfc
 // NB: only one of trueExpression or falseExpression is evaluated:
 a = 1;
 b = 1;
 c = false ? ++a : ++b; // a=1, b=2, c=2
-``` 
-
+```
+<a href="http://trycf.com/editor/gist/da4ec1cfa62aa134ca4e/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 ##### Null-coalescing variation
 ```cfc
 result = left ?: right; // left-hand expression is used unless it is null, in which case the right one is used
@@ -160,10 +245,14 @@ result = left ?: right; // left-hand expression is used unless it is null, in wh
 //eg:
 a = d ?: "default"; // a = default
 ```
+<a href="http://trycf.com/editor/gist/e1e440bab2b856474e88/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 ```cfc
 d = 1;
 a = d ?: "default"; // a = 1
-``` 
+```
+<a href="http://trycf.com/editor/gist/7824257754c541adbacb/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
+
+Note that whilst this appears to be the same as other language's "Elvis" operator, it is not the same. The "Elvis" operator checks for `false` (and in some languages `null` is falsey); this operator checks specifically for `null`. This is likely due to a misunderstanding one the part of Adobe (and perpetuated by the Lucee devs when copying it).
 
 ### Conditions
 
@@ -185,11 +274,11 @@ if (booleanExpression){
     // multiple statements executed if condition(s) are false
 }
 ```
-
+<a href="http://trycf.com/editor/gist/79d1a9adeea8c2b3d0b6/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### switch
 ```cfc
 switch (expression){
-    case "some constant value": // value can be dynamic on Railo
+    case "some constant value": // value can be dynamic on Railo/Lucee
          // statements executed if expression = "some constant value"
     break; // exit switch statement
     case "a different constant value":
@@ -201,7 +290,7 @@ switch (expression){
         // statements executed if expression = "a different constant value" or "third constant value"
     break;
     case "4th value":
-         "5th value":
+    case "5th value":
             // statements executed if expression is one of "4th value" or "5th value"
     break;
     default:
@@ -209,17 +298,17 @@ switch (expression){
     break;
 }
 ```
-
+ <a href="http://trycf.com/editor/gist/9d104178a7630d198a16/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### try/catch/finally, throw/rethrow
 ```cfc
 try {
     // statements
 
     throw "message"; // throws an Application exception, with the given message
-    
+
     // or
     throw(type="ExceptionType", message="message", detail="detail", errorCode="errorCode", extendedInfo="extendedInfo"); // despite appearances, this is NOT a function
-    
+
     // or
     throw(object=JavaExceptionObject);
 
@@ -257,7 +346,7 @@ for (initialisation; condition; repetition) {
 EG:
 ```cfc
 for (i=1; i <=5; i++) writeOutput(i); // just the following single statement is looped over
-``` 
+```
 
 or:
 ```cfc
@@ -298,7 +387,7 @@ This form of loop will execute zero or more times.
 
 This form of loop evaluates a single condition at the beginning of each iteration, and continues to loop whilst the condition is true:
 ```cfc
-do { 
+do {
     // statements
 } while(condition);
 ```
@@ -329,7 +418,7 @@ a.each(function(element,index,array){
 });
 ```
 
-Note that Railo can call methods directly on a literal, so this works:
+Note that Railo/Lucee can call methods directly on a literal, so this works:
 ```cfc
 ["a","b","c"].each(function(element,index,array){
     writeOutput("#index#:#element#;"); // 1:a;2:b;3:c;
@@ -391,7 +480,7 @@ cfloop(query=q, group="fk"){
 }
 ```
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 loop query=q group="fk" {
     writeOutput("<strong>#fk#</strong>");
@@ -424,7 +513,7 @@ for (element in "a,b,c,d,e"){
 
 I am not sure how one would specify a delimiter for the last example: it does not seem supported.
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 cfloop(list="a;b;c", index="element", delimiters=";"){
     writeOutput(element); // abc
@@ -444,7 +533,7 @@ cfloop(file=filePath, index="chars", characters=16, charset="UTF-8"){
 }
 ```
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 loop file=filePath index="chars" characters=16 charset="UTF-8" {
     writeOutput(chars);
@@ -465,7 +554,7 @@ for(date=from; dateCompare(date, to, "d") <= 0; date = dateAdd("d", 1, date)){
 }
 ```
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 cfloop(from=from, to=to, index="date", step=createTimespan(1,0,0,0)){
     writeOutput(dateTimeFormat(date, "yyyy-mm-dd HH:nn:sstt") & "<br>");
@@ -475,6 +564,20 @@ cfloop(from=from, to=to, index="date", step=createTimespan(1,0,0,0)){
 
 loop from=from to=to index="date" step=createTimespan(1,0,0,0){
     writeOutput(dateTimeFormat(date, "yyyy-mm-dd HH:nn:sstt") & "<br>");
+}
+```
+
+#### Iteration flow control
+
+cfcontinue:
+```cfc
+for (i=1; i <= 5; i++){
+    writeOutput("#i# is ");
+    if (i mod 2){
+        writeOutput("ODD<br>");
+        continue;
+    }
+    writeOutput("EVEN<br>");
 }
 ```
 
@@ -514,7 +617,7 @@ include "pathToFile" runonce=true;
 #### Module
 
 ```cfc
-// Railo
+// Railo/Lucee
 module template="inc.cfm" attr1="val1" attr2="val2";
 
 // ColdFusion
@@ -636,14 +739,14 @@ Also note that this does not currently work on ColdFusion (see [3808960](https:/
 function f(x){
     // statements
 }
-```   
+```
 
 #### Function expressions
 ```cfc
 f = function(x){
     // statements
 };
-```   
+```
 
 Functions defined by function expressions use closure, functions defined by a function statement do not
 
@@ -657,7 +760,7 @@ argumentsToPass = {x=1};
 result = invoke(test, methodToCall, argumentsToPass);
 ```
 
-Railo-only:
+Railo/Lucee-only:
 ```cfc
 result = test[methodToCall](argumentCollection=argumentsToPass);
 ```
@@ -673,8 +776,8 @@ myObj = createObject(type, "path.to.class"); // along with other type/situation-
 
 // or
 
-myObj = new path.to.some.cfc.file(); // NB: will call the CFC's init() (by default), or method identified by the initmethod attribute of the component (bug in Railo: [RAILO-2294](https://issues.jboss.org/browse/RAILO-2294)) 
-```   
+myObj = new path.to.some.cfc.file(); // NB: will call the CFC's init() (by default), or method identified by the initmethod attribute of the component (bug in Railo: [RAILO-2294](https://issues.jboss.org/browse/RAILO-2294))
+```
 
 ### File system operations
 
@@ -688,7 +791,7 @@ directoryCreate("path/to/directory");
 cfdirectory(action="create", directory="path/to/directory", mode="777");
 ```
 ```cfc
-// Railo only
+// Railo/Lucee only
 directory action="create" directory="path/to/directory" mode="777";
 ```
 ```cfc
@@ -697,7 +800,7 @@ directoryDelete("path/to/directory");
 ```
 ```cfc
 // list
-listing = directoryList("path/to/directory", true, "query", "*.cfm", "size desc"); // CF11 added an additional "type" attribute. Not currently supported on Railo
+listing = directoryList("path/to/directory", true, "query", "*.cfm", "size desc"); // CF11 added an additional "type" attribute. Not currently supported on Railo/Lucee
 ```
 ```cfc
 // rename
@@ -758,6 +861,15 @@ fileWrite("path/to/file", data);
 fileWrite(fileHandle, data);
 ```
 
+```cfc
+/* cflocation */
+// ColdFusion
+location(url="http://example.com", statuscode="301 OR 302", addtoken=false);
+
+// Railo/Lucee
+location url="http://example.com", statuscode="301 OR 302", addtoken=false;
+```
+
 ### Database
 
 #### Query
@@ -787,6 +899,25 @@ numbers = queryExecute("
 ",{low=2,high=3});
 ```
 
+To qualify parameters with SQL types you can specify the equivalent of the cfqueryparam options with the parameters in the following way:
+
+```cfc
+// with sql types in params struct
+numbers = queryExecute("
+    SELECT    columns
+    FROM    table
+    WHERE    id BETWEEN :low AND :high
+",
+{
+    low = { value = 2
+            cfsqltype = "cf_sql_integer"
+        },
+    high = { value = 3,
+             cfsqltype = "cf_sql_integer"
+        }
+});
+```
+
 For versions prior to ColdFusion 11 (in which queryExecute() was implemented), there is a CFC-based solution: [Query.cfc](https://wikidocs.adobe.com/wiki/display/coldfusionen/query). An example is as follows:
 ```cfc
 numbers = new Query(
@@ -805,16 +936,22 @@ numbers = new Query(
 #### Stored Procedure
 ```cfc
 cfstoredproc(procedure="procName") {
-    cfprocparam(type="in", cfsqltype="cf_sql_varchat", value="someValue");
-    cfprocresult(name="result");
+    cfprocparam(type="in", cfsqltype="cf_sql_varchar", value="someValue");
+    cfprocresult(name="result",resultSet=1);
+    cfprocresult(name="result2",resultSet=2);
 }
 ```
 
-Railo only
+Railo/Lucee only
 ```cfc
-storedproc procedure="procName" {
-    procparam type="in" cfsqltype="cf_sql_varchat" value="someValue";
-    procresult name="result";
+storedproc procedure="procName" 
+    dataSource = "myDataSource" 
+    result="response" 
+    returncode="true" {
+    procparam type="in" cfsqltype="cf_sql_varchar" value="someValue";
+    procparam type="out" cfsqltype="cf_sql_integer" variable="myVariable";
+    procresult resultSet=1 name="result";
+    procresult resultSet=2 name="result2";
 }
 ```
 
@@ -839,7 +976,7 @@ See ColdFusion ticket: [3791737](https://bugbase.adobe.com/index.cfm?event=bug&i
 
 #### Insert
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 insert datasource="myDataSource" table="myTable" formFields="list,of,form,fields"; // arguments the same as `<cfinsert>`. datasource is optional
 ```
@@ -855,7 +992,7 @@ Note that datasource is currently required, which is a bug: [3814079](https://bu
 
 #### Update
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 update datasource="myDataSource" table="myTable" formFields="list,of,form,fields"; // arguments the same as `<cfupdate>`. datasource is optional
 ```
@@ -872,7 +1009,7 @@ cfupdate(datasource="myDataSource", table="myTable", formFields="list,of,form,fi
 cfdbinfo(type="tables", name="info"); // arguments the same as `<cfdbinfo>`
 ```
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 dbinfo type="tables" name="info"; // arguments the same as `<cfdbinfo>`
 ```
@@ -885,7 +1022,7 @@ transaction {
         transaction action="commit";
     }
     catch (any e){
-        transaction action="rollback";    
+        transaction action="rollback";
     }
 }
 ```
@@ -896,26 +1033,26 @@ Note that all attributes of `<cftransaction>` are supported as space-separated n
 
 #### Dump
 ```cfc
-writeDump(myVar); // can use either ordered or named arguments.  
+writeDump(myVar); // can use either ordered or named arguments.
 ```
 With named arguments:
 ```cfc
-writeDump(var=myVar, output=ExpandPath('/debug/log.txt')); 
+writeDump(var=myVar, output=ExpandPath('/debug/log.txt'));
 ```
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 dump(myVar)
 ```
 
 #### Log
 ```cfc
-writeLog("text to log"); // can use either ordered or named arguments.  
+writeLog("text to log"); // can use either ordered or named arguments.
 ```
 
 #### Trace
 ```cfc
-// RAILO only
+// Railo/Lucee only
 trace category="test" text="trace text" { // plus all same params as `<cftrace>`
     // stuff to trace
 }
@@ -926,7 +1063,7 @@ trace(category="test", text="trace text"){ // plus all same params as `<cftrace>
     // stuff to trace
 }
 // note that CF11 incorrectly records timing information (see [3811003](https://bugbase.adobe.com/index.cfm?event=bug&id=3811003))
-```   
+```
 
 #### Timer
 ```cfc
@@ -935,7 +1072,7 @@ cftimer(label="timer label" type="outline") { // plus all same params as `<cftim
 }
 ```
 ```cfc
-// RAILO only
+// Railo/Lucee only
 timer label="timer label" type="outline" { // plus all same params as `<cftimer>`
     // stuff to time
 }
@@ -948,7 +1085,7 @@ timer label="timer label" type="outline" { // plus all same params as `<cftimer>
 writeOutput(expression); // expression must resolve to a string
 ```
 
-Railo only:
+Railo/Lucee only:
 ```cfc
 echo(expression); // expression must resolve to a string
 ```
@@ -958,7 +1095,7 @@ echo(expression); // expression must resolve to a string
 pageencoding "UTF-8";
 ```
 
-Note that this only works in CFC files on ColdFusion ([3712167](https://bugbase.adobe.com/index.cfm?event=bug&id=3712167)). It works correctly on Railo.
+Note that this only works in CFC files on ColdFusion ([3712167](https://bugbase.adobe.com/index.cfm?event=bug&id=3712167)). It works correctly on Railo/Lucee.
 
 #### Save content
 ```cfc
@@ -996,13 +1133,13 @@ cfdocument(format="PDF"){
     // mark-up here
 }
 ```
-Railo:
+Railo/Lucee:
 ```cfc
 document format="PDF" {
     // mark-up here
 }
 ```
-   
+
 The same should work on other PDF-oriented tags. For versions of ColdFusion prior to CF11, there is a PDF.cfc (similar to Query.cfc, and also in cfusion/CustomTags/com/adobe/coldfusion). I have never used it, do not know how it works, and have no interest in finding out. If someone would like to donate some example code, I will integrate it here.
 
 
@@ -1047,7 +1184,7 @@ httpService.addParam(type="formfield", name="field1", value="1111");
 httpService.addParam(type="formfield", name="field2", value="some text here");
 
 // this is the cfscript way to grab the response
-httpResponse = local.httpService.send().getPrefix();
+httpResponse = httpService.send().getPrefix();
 
 writeDump(httpResponse);
 ```
@@ -1060,14 +1197,14 @@ __The pattern seems to be `set{ATTRIBUTENAME}( value );` for setting attributes 
 
 ```cfc
 mailerService = new mail();
-/* set mail attributes using implicit setters provided */ 
+/* set mail attributes using implicit setters provided */
 mailerService.setType("html");
 mailerService.setCharset( "utf-8" );
 mailerService.setTo( "adam@sample.com" );
 mailerService.setFrom( "test@sample.com;joe@sample.com" );
 mailerService.setSubject( "Super interesting subject" );
 
-/* add mailparams */ 
+/* add mailparams */
 mailerService.addParam( file=expandpath(form.attachment), type="text/plain", remove=false );
 // create the body
 savecontent variable="mailBody"{
@@ -1083,7 +1220,7 @@ mailerService.send( body=mailBody );
 
 To use any other functionality not listed here within CFScript, one needs to use the generalised syntax.
 
-On Railo this is a matter of removing the "`<cf`" and the "`>`", and using normal block syntax (curly braces) where the tag-version is a block-oriented tag.
+On Railo/Lucee this is a matter of removing the "`<cf`" and the "`>`", and using normal block syntax (curly braces) where the tag-version is a block-oriented tag.
 
 On ColdFusion, replace the "`<cftagname`" with "`cftagname(`", and the "`>`" with "`)`", and comma-separate the attributes. Note that this will make the construct _look_ like a function, but it actually is not, and cannot be used like a function, eg this is invalid syntax:
 
@@ -1095,3 +1232,4 @@ result = cfhttp(method="post", url="http://example.com");
 
 [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
 This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+[trycf-logo]:http://trycf.com/img/trycf-logo-tiny.png "TryCF.com"
