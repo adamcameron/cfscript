@@ -129,7 +129,7 @@ Semi-colons are _generally_ optional on Railo/Lucee:
 a = 1
 ```
 
-Where "generally" means "if the end of the statement is unambiguous without a semi-colon".
+Where "generally" means "if the end of the statement is unambiguous without a semi-colon". It is better to just always use semi-colons.
 
 Block statements (with curly braces) do not have semi-colons:
 ```cfc
