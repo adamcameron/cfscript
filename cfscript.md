@@ -978,14 +978,14 @@ See ColdFusion ticket: [3791737](https://bugbase.adobe.com/index.cfm?event=bug&i
 
 Railo/Lucee only:
 ```cfc
-insert datasource="myDataSource" table="myTable" formFields="list,of,form,fields"; // arguments the same as `<cfinsert>`. datasource is optional
+insert datasource="myDataSource" tableName="myTable" formFields="list,of,form,fields"; // arguments the same as `<cfinsert>`. datasource is optional
 ```
 
 Note: there is a bug with this: [RAILO-3180](https://issues.jboss.org/browse/RAILO-3180).
 
 ColdFusion only:
 ```cfc
-cfinsert(datasource="myDataSource", table="myTable", formFields="list,of,form,fields"); // arguments the same as `<cfinsert>`
+cfinsert(datasource="myDataSource", tableName="myTable", formFields="list,of,form,fields"); // arguments the same as `<cfinsert>`
 ```
 
 Note that datasource is currently required, which is a bug: [3814079](https://bugbase.adobe.com/index.cfm?event=bug&id=3814079).
