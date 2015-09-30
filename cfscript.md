@@ -717,7 +717,7 @@ function f(required numeric x){ // required argument of type "numeric"
 ```
 Default value:
 ```cfc
-function f(required numeric x = 0){ // required argument of type "numeric" with default value of 0
+function f(numeric x = 0){ // optional argument of type "numeric" with default value of 0
     // statements
 }
 ```
