@@ -715,6 +715,12 @@ function f(required numeric x){ // required argument of type "numeric"
     // statements
 }
 ```
+Default value:
+```cfc
+function f(numeric x = 0){ // optional argument of type "numeric" with default value of 0
+    // statements
+}
+```
 
 #### Function/argument annotations
 ```cfc
