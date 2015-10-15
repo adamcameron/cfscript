@@ -817,12 +817,22 @@ directoryRename("path/to/directory", "path/to/new/directory");
 ```cfc
 // read
 // text
-result = fileRead("path/to/file");
+if (fileExists("path/to/file")) {
+   result = fileRead("path/to/file");
+}
 
 // or
 fileHandle = fileOpen("path/to/file", "read");
 result = fileRead(fileHandle, bytesToRead);
 fileClose(fileHandle);
+
+// or
+fileHandle = fileOpen("path/to/file", "read");
+while (!fileIsEOF(fileHandle)) {
+    result = fileReadLine(fileHandle);
+}
+fileClose(fileHandle);
+
 ```
 ```cfc
 // binary
