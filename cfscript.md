@@ -710,6 +710,14 @@ result = fileRead("path/to/file");
 fileHandle = fileOpen("path/to/file", "read");
 result = fileRead(fileHandle, bytesToRead);
 fileClose(fileHandle);
+
+// or
+fileHandle = fileOpen("path/to/file", "read");
+while (!fileIsEOF(fileHandle)) {
+    result = fileReadLine(fileHandle);
+}
+fileClose(fileHandle);
+
 ```
 ```cfc
 // binary
