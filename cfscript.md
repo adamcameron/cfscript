@@ -133,7 +133,7 @@ Where "generally" means "if the end of the statement is unambiguous without a se
 
 Block statements (with curly braces) do not have semi-colons:
 ```cfc
-while (condition){
+while (condition) {
     // statements
 }
 ```
@@ -260,15 +260,15 @@ Note that whilst this appears to be the same as other language's "Elvis" operato
 ```cfc
 if (booleanExpression)
     // single statement executed if booleanExpression is true
-else if(anotherBooleanExpression)
+else if (anotherBooleanExpression)
     // single statement executed if anotherBooleanExpression is true
 else
     // single statement executed if condition(s) are false
 ```
 ```cfc
-if (booleanExpression){
+if (booleanExpression) {
     // multiple statements executed if booleanExpression is true
-} else if(anotherBooleanExpression) {
+} else if (anotherBooleanExpression) {
     // multiple statements executed if anotherBooleanExpression is true
 } else {
     // multiple statements executed if condition(s) are false
@@ -277,7 +277,7 @@ if (booleanExpression){
 <a href="http://trycf.com/editor/gist/79d1a9adeea8c2b3d0b6/acf11?theme=solarized_dark" target="_blank">![trycf-logo] Run this example on trycf.com</a>
 #### switch
 ```cfc
-switch (expression){
+switch (expression) {
     case "some constant value": // value can be dynamic on Railo/Lucee
          // statements executed if expression = "some constant value"
     break; // exit switch statement
@@ -307,21 +307,20 @@ try {
     throw "message"; // throws an Application exception, with the given message
 
     // or
-    throw(type="ExceptionType", message="message", detail="detail", errorCode="errorCode", extendedInfo="extendedInfo"); // despite appearances, this is NOT a function
+    throw (type="ExceptionType", message="message", detail="detail", errorCode="errorCode", extendedInfo="extendedInfo"); // despite appearances, this is NOT a function
 
     // or
-    throw(object=JavaExceptionObject);
-
+    throw (object=JavaExceptionObject);
 }
-catch (SomeExceptionType variableContainingExceptionObject){
+catch (SomeExceptionType variableContainingExceptionObject) {
     // statements executed if code in try block errors with a SomeExceptionType exception
 
     rethrow; // rethrows the caught exception
 }
-catch (SomeOtherExceptionType variableCOntainingExceptionObject){
+catch (SomeOtherExceptionType variableCOntainingExceptionObject) {
     // statements executed if code in try block errors with a SomeOtherExceptionType exception
 }
-catch (any variableCOntainingExceptionObject){
+catch (any variableCOntainingExceptionObject) {
     // statements executed if code in try block errors with any not-yet-caught exception type
 }
 finally {
@@ -357,15 +356,15 @@ for (i=1; i <=5; i++) {
 }
 ```
 
-The general perception is that this is the only form of a general-purpose for() loop: initialising a counter variable, testing it and adjusting it (increment, decrement). This is not the case. Each of the statements can be _anything_ (the condition needs to evaluate to a boolean), and indeed are optional. This is an endless loop, equivalent to while(true):
+The general perception is that this is the only form of a general-purpose for() loop: initialising a counter variable, testing it and adjusting it (increment, decrement). This is not the case. Each of the statements can be _anything_ (the condition needs to evaluate to a boolean), and indeed are optional. This is an endless loop, equivalent to while (true):
 ```cfc
-for(;;)
+for (;;)
 ```
 
 A very contrived example to demonstrate the freedom one has with the parameters of the <span id="contrivedFor">for()</span>:
 ```cfc
 i=0;
-for(; true; writeOutput(i)){
+for (; true; writeOutput(i)) {
     if (++i > 5) break;
 }
 ```
@@ -389,7 +388,7 @@ This form of loop evaluates a single condition at the beginning of each iteratio
 ```cfc
 do {
     // statements
-} while(condition);
+} while (condition);
 ```
 
 This form of loop will execute _one_ or more times. It's important to consider that the body of the loop will always run the first time, because no condition is evaluated until the _end_ of the loop.
@@ -398,14 +397,14 @@ This form of loop will execute _one_ or more times. It's important to consider t
 
 ##### For statement
 ```cfc
-for (element in [1,2,3,4,5]){
+for (element in [1,2,3,4,5]) {
     writeOutput(element); // 12345
 }
 ```
 
 ##### arrayEach()
 ```cfc
-arrayEach(["a","b","c"], function(element,index,array){
+arrayEach(["a","b","c"], function(element,index,array) {
     writeOutput("#index#:#element#;"); // 1:a;2:b;3:c;
 });
 ```
@@ -413,14 +412,14 @@ arrayEach(["a","b","c"], function(element,index,array){
 ##### Array.each()
 ```cfc
 a = ["a","b","c"];
-a.each(function(element,index,array){
+a.each(function(element,index,array) {
     writeOutput("#index#:#element#;"); // 1:a;2:b;3:c;
 });
 ```
 
 Note that Railo/Lucee can call methods directly on a literal, so this works:
 ```cfc
-["a","b","c"].each(function(element,index,array){
+["a","b","c"].each(function(element,index,array) {
     writeOutput("#index#:#element#;"); // 1:a;2:b;3:c;
 });
 ```
@@ -430,21 +429,21 @@ Note that Railo/Lucee can call methods directly on a literal, so this works:
 ##### For statement
 ```cfc
 struct = {a=1,b=2,c=3};
-for (key in struct){
+for (key in struct) {
     writeOutput("#key#:#struct[key]#;"); // a:1;b:2;c:3; (order of keys not guaranteed, obviously)
 }
 ```
 
 ##### structEach()
 ```cfc
-structEach(struct, function(key,value,struct){
+structEach(struct, function(key,value,struct) {
     writeOutput("#key#:#value#;"); // a:1;b:2;c:3;
 });
 ```
 
 ##### Struct.each()
 ```cfc
-struct.each(function(key,value,struct){
+struct.each(function(key,value,struct) {
     writeOutput("#key#:#value#;"); // a:1;b:2;c:3;
 });
 ```
@@ -471,9 +470,9 @@ q = queryNew("pk,fk,data", "integer,integer,varchar",[
     [5, 30, "ee"],
     [6, 30, "ff"]
 ]);
-cfloop(query=q, group="fk"){
+cfloop(query=q, group="fk") {
     writeOutput("<strong>#fk#</strong>");
-    cfloop(){
+    cfloop() {
         writeOutput("#pk#:#data#<br>");
     }
     writeOutput("<hr>");
@@ -494,19 +493,19 @@ loop query=q group="fk" {
 #### List loop
 ```cfc
 list = "a;b;c";
-listEach(list, function(element,index,list){
+listEach(list, function(element,index,list) {
     writeOutput("#index#:#element#;"); // 1:a;2:b;3:c;
 }, ";");
 
 // or
 
-list.each(function(element,index,list){
+list.each(function(element,index,list) {
     writeOutput("#index#:#element#;"); // 1:a;2:b;3:c;
 }, ";");
 
 // or (ColdFusion only, see [RAILO-3207](https://issues.jboss.org/browse/RAILO-3207))
 
-for (element in "a,b,c,d,e"){
+for (element in "a,b,c,d,e") {
     writeOutput(element); // abcde
 }
 ```
@@ -515,7 +514,7 @@ I am not sure how one would specify a delimiter for the last example: it does no
 
 Railo/Lucee only:
 ```cfc
-cfloop(list="a;b;c", index="element", delimiters=";"){
+cfloop(list="a;b;c", index="element", delimiters=";") {
     writeOutput(element); // abc
 }
 
@@ -549,20 +548,20 @@ Work around:
 from = now();
 to   = dateAdd("d", 7, from);
 
-for(date=from; dateCompare(date, to, "d") <= 0; date = dateAdd("d", 1, date)){
+for (date=from; dateCompare(date, to, "d") <= 0; date = dateAdd("d", 1, date)) {
     writeOutput(dateTimeFormat(date, "yyyy-mm-dd HH:nn:sstt") & "<br>");
 }
 ```
 
 Railo/Lucee only:
 ```cfc
-cfloop(from=from, to=to, index="date", step=createTimespan(1,0,0,0)){
+cfloop(from=from, to=to, index="date", step=createTimespan(1,0,0,0)) {
     writeOutput(dateTimeFormat(date, "yyyy-mm-dd HH:nn:sstt") & "<br>");
 }
 
 // or
 
-loop from=from to=to index="date" step=createTimespan(1,0,0,0){
+loop from=from to=to index="date" step=createTimespan(1,0,0,0) {
     writeOutput(dateTimeFormat(date, "yyyy-mm-dd HH:nn:sstt") & "<br>");
 }
 ```
@@ -571,9 +570,9 @@ loop from=from to=to index="date" step=createTimespan(1,0,0,0){
 
 cfcontinue:
 ```cfc
-for (i=1; i <= 5; i++){
+for (i=1; i <= 5; i++) {
     writeOutput("#i# is ");
-    if (i mod 2){
+    if (i mod 2) {
         writeOutput("ODD<br>");
         continue;
     }
@@ -681,7 +680,7 @@ property type="string" name="myProperty" default="default value"; // and all the
 Basic:
 
 ```cfc
-function f(){ // assumes public function, returntype any
+function f() { // assumes public function, returntype any
 
 }
 ```
@@ -689,7 +688,7 @@ function f(){ // assumes public function, returntype any
 With access and return type modifiers:
 
 ```cfc
-private void function f(){
+private void function f() {
     // statements
 }
 ```
@@ -698,26 +697,26 @@ private void function f(){
 
 Basic:
 ```cfc
-function f(x){ // optional argument of type "any"
+function f(x) { // optional argument of type "any"
     //statements
 }
 ```
 
 Type:
 ```cfc
-function f(numeric x){ // optional argument of type "numeric"
+function f(numeric x) { // optional argument of type "numeric"
     //statements
 }
 ```
 Required:
 ```cfc
-function f(required numeric x){ // required argument of type "numeric"
+function f(required numeric x) { // required argument of type "numeric"
     // statements
 }
 ```
 Default value:
 ```cfc
-function f(numeric x = 0){ // optional argument of type "numeric" with default value of 0
+function f(numeric x = 0) { // optional argument of type "numeric" with default value of 0
     // statements
 }
 ```
@@ -729,7 +728,7 @@ function f(numeric x = 0){ // optional argument of type "numeric" with default v
  * @x.type numeric
  * @x.required true
  */
-function f(x){
+function f(x) {
     // statements
 }
 ```
@@ -742,14 +741,14 @@ Also note that this does not currently work on ColdFusion (see [3808960](https:/
  * @x.type numeric
  * @x.default 0 // this causes a compile error
  */
-function f(x){
+function f(x) {
     // statements
 }
 ```
 
 #### Function expressions
 ```cfc
-f = function(x){
+f = function(x) {
     // statements
 };
 ```
@@ -1037,7 +1036,7 @@ transaction {
         // stuff to do
         transaction action="commit";
     }
-    catch (any e){
+    catch (any e) {
         transaction action="rollback";
     }
 }
@@ -1075,7 +1074,7 @@ trace category="test" text="trace text" { // plus all same params as `<cftrace>`
 ```
 ```cfc
 // COLDFUSION only
-trace(category="test", text="trace text"){ // plus all same params as `<cftrace>`
+trace(category="test", text="trace text") { // plus all same params as `<cftrace>`
     // stuff to trace
 }
 // note that CF11 incorrectly records timing information (see [3811003](https://bugbase.adobe.com/index.cfm?event=bug&id=3811003))
@@ -1145,7 +1144,7 @@ I have to concede I have never ever done any work with PDFs, so cannot make an i
 
 ColdFusion:
 ```cfc
-cfdocument(format="PDF"){
+cfdocument(format="PDF") {
     // mark-up here
 }
 ```
