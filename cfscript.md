@@ -1243,6 +1243,22 @@ On ColdFusion, replace the "`<cftagname`" with "`cftagname(`", and the "`>`" wit
 result = cfhttp(method="post", url="http://example.com");
 ```
 
+Some tags take a block of code / text within them. Blocks are represented with curly braces, similar to a flow-contrl statement.
+
+```cfc
+cfmail(attributeCollection = attributesforCfmail) {
+	cfmailpart(type="text/plain") {
+		writeOutput("If you are seeing this, your e-mail client does not support HTML messages.");
+	}
+	cfmailpart(type="text/html") {
+		writeOutput(htmlVersionOfMessage);
+	}
+}
+
+```
+
+Note how text needs to be "output" using `writeOutput`. Note also how sub-tags (`cfmailpart` here) are also expressed using the same rules as parent tags.
+
 * * *
 
 [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
