@@ -1263,4 +1263,5 @@ Note how text needs to be "output" using `writeOutput`. Note also how sub-tags (
 
 [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
 This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
-[trycf-logo]:http://trycf.com/img/trycf-logo-tiny.png "TryCF.com"
+
+[trycf-logo]: http://trycf.com/img/trycf-logo-tiny.png "TryCF.com"
