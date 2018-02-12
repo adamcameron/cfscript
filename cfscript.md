@@ -924,7 +924,7 @@ numbers = queryExecute("
     WHERE    id BETWEEN :low AND :high
 ",
 {
-    low = { value = 2
+    low = { value = 2,
             cfsqltype = "cf_sql_integer"
         },
     high = { value = 3,
