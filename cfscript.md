@@ -582,6 +582,17 @@ for (i=1; i <= 5; i++) {
 
 ### Other flow control statements
 
+#### Request Redirect
+
+```cfc
+/* cflocation */
+// ColdFusion
+location(url="http://example.com", statuscode="301 OR 302", addtoken=false);
+
+// Railo/Lucee
+location url="http://example.com", statuscode="301 OR 302", addtoken=false;
+```
+
 #### Abort processing
 ```cfc
 abort;
@@ -874,15 +885,6 @@ fileWrite("path/to/file", data);
 // or
 
 fileWrite(fileHandle, data);
-```
-
-```cfc
-/* cflocation */
-// ColdFusion
-location(url="http://example.com", statuscode="301 OR 302", addtoken=false);
-
-// Railo/Lucee
-location url="http://example.com", statuscode="301 OR 302", addtoken=false;
 ```
 
 ### Database
